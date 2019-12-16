@@ -2,7 +2,7 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>Final project</title>
+<title>final</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -13387,7 +13387,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We iterate through every row of the dataframe and use rows with years in the <code>date</code> column to determine the year for the following rows. For rows with months in the <code>date</code> column, we use the currently set year to determine the date. To make plotting the data with <code>matplotlib</code> easier, we parse the date as a string and store it as an integer representing seconds. Now, we have tidy data that can be easily plot,</p>
+<p>We iterate through every row of the dataframe and use rows with years in the <code>date</code> column to determine the year for the following rows. For rows with months in the <code>date</code> column, we use the currently set year to determine the date. To make plotting the data with <code>matplotlib</code> easier, we parse the date as a string and store it as an integer representing seconds. Now, we have tidy data that can be easily plotted.</p>
 <p>Let's look at the trend in coffee prices over time.</p>
 
 </div>
@@ -14128,7 +14128,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>From the boxplots, we see that countries producing primarily Colombian Milds or Other Milds have similar prices paid to growers, with the main difference being that Other Milds has a much larger spread. Countries producing primarily Robusta have signficantly lower prices paid to growers, likely as a function of the lower market prices of Robusta coffee.</p>
 <p>We can't gain significant insight into the coffee market from price data alone. Combined with production data, however, we can begin to see what factors drives the coffee prices that growers face.</p>
-<h3 id="Production-Data">Production Data<a class="anchor-link" href="#Production-Data">&#182;</a></h3><p>The ICO collects data on coffee production from its member countries. Specifically, we'll look at the Domestic Consumption and Exportable production datasets. These represent the amount of coffee consumed domestically by producing countries and the amount of coffee available for export, repsectively. Together, they add up to the total production of a producing country for a given year. All units represent thousands of 60kg bags of green coffee.</p>
+<h3 id="Production-Data">Production Data<a class="anchor-link" href="#Production-Data">&#182;</a></h3><p>The ICO collects data on coffee production from its member countries. Specifically, we'll look at the Domestic Consumption and Exportable Production datasets. These represent the amount of coffee consumed domestically by producing countries and the amount of coffee available for export, repsectively. Together, they add up to the total production of a producing country for a given year. All units represent thousands of 60kg bags of green coffee.</p>
 <p>Both datasets have the same format, so we can use the same cleaning procedure on both.</p>
 
 </div>
@@ -14337,7 +14337,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>We want to transform the data so that every row represents an observation of the quantity produced by a country for a given year. Unlike the prices to growers dataset, each column contains a year range rather than a single year. This is due to how the harvest and growing cycle aligns with the new year. Note that different countries also harvest at different times of the year (and some more than once! - Counter Culture Coffee has a great interactive map to see when harvests occur in each county: <a href="https://counterculturecoffee.com/learn/resource-center/coffee-seasonality">https://counterculturecoffee.com/learn/resource-center/coffee-seasonality</a>). We'll also want to remove all of the rows that are group-level aggregates.</p>
+<p>We want to transform the data so that every row represents an observation of the quantity produced by a country for a given year. Unlike the prices to growers dataset, each column contains a year range rather than a single year. This is due to how the harvest and growing cycle aligns with the calendar year. Note that different countries also harvest at different times of the year (and some more than once! - Counter Culture Coffee has a great interactive map to see when harvests occur in each county: <a href="https://counterculturecoffee.com/learn/resource-center/coffee-seasonality">https://counterculturecoffee.com/learn/resource-center/coffee-seasonality</a>). We'll also want to remove all of the rows that are group-level aggregates.</p>
 
 </div>
 </div>
@@ -14371,7 +14371,7 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Nice! Now let's read in the domestic production dataset:</p>
+<p>Nice! Now let's read in the domestic consumption dataset:</p>
 
 </div>
 </div>
@@ -14747,9 +14747,9 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Global coffee production has nearly doubled since 1990. The continuous upward trend in production contrasts the graph of coffee market prices, which showed signicant volatility and no clear trend toward higher prices.</p>
-<p>At this point, we have the <code>indicator_prices</code>, <code>prices_to_growers</code>, and <code>production</code> datasets. Now, let's use the <code>indicator_prices</code> and <code>production</code> to estimate prices to growers.</p>
+<p>At this point, we have the <code>indicator_prices</code>, <code>prices_to_growers</code>, and <code>production</code> datasets. Now, let's use <code>indicator_prices</code> and <code>production</code> to estimate prices to growers.</p>
 <h2 id="Analysis">Analysis<a class="anchor-link" href="#Analysis">&#182;</a></h2><h3 id="Estimation-Strategy">Estimation Strategy<a class="anchor-link" href="#Estimation-Strategy">&#182;</a></h3><p>Our goal is to predict prices to growers as a function of market prices and production-related variables for a given country. We'll do this using (1) linear regression and (2) random forests. The general relationship for this model will be:</p>
-$$PricetoGrowers = ProducerGroup + MarketPrice + DomesticRatio$$<p>Where <code>ProducerGroup</code> is the primary group of coffee that a country produces, <code>MarketPrice</code> is the market price for the primary kind of coffee that a country produces, and <code>DomesticRatio</code> is the ratio of domestic production to total production of a country. For linear regression, we will have to transform each of the producer groups into a separate binary variable, and market price into an interaction term between each binary producer group variable and its associated market price. The fully specified linear regression equation will have the form:</p>
+$$PricetoGrowers = ProducerGroup + MarketPrice + DomesticRatio$$<p>Where <code>ProducerGroup</code> is the primary group of coffee that a country produces, <code>MarketPrice</code> is the market price for the primary kind of coffee that a country produces, and <code>DomesticRatio</code> is the ratio of domestic consumption to total production of a country. For linear regression, we will have to transform each of the producer groups into a separate binary variable, and market price into an interaction term between each binary producer group variable and its associated market price. The fully specified linear regression equation will have the form:</p>
 $$PricetoGrowers = β_1*IsColombianMild + β_2*IsOtherMild + β_3*IsBrazilianNatural + β_4*IsRobusta + β_5*IsColombianMild*ColombianMild + β_6*IsOtherMild*OtherMild B_7*IsBrazilianNatural*BrazilianNatural + β_8*IsRobusta*Robusta + β_9*DomesticRatio$$<p>Note that we don't include a constant term, as it would create a collinear relationship between the binary variables for producer group. Let's transform the data so we can run the regression.</p>
 <h3 id="Data-Preparation">Data Preparation<a class="anchor-link" href="#Data-Preparation">&#182;</a></h3>
 </div>
@@ -15265,7 +15265,7 @@ $$PricetoGrowers = β_1*IsColombianMild + β_2*IsOtherMild + β_3*IsBrazilianNat
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>From output, we see that our model obtained a moderate R<sup>2</sup> of .39. All of the coefficients on the independent variables were statistically significant with the expection of the binary variables for colombian milds, brazilian naturals, and robustas. Let's visualize the results of the model.</p>
+<p>From the output, we see that our model obtained a moderate R<sup>2</sup> of .39. All of the coefficients on the independent variables were statistically significant with the expection of the binary variables for colombian milds, brazilian naturals, and robustas. Let's visualize the results of the model.</p>
 
 </div>
 </div>
@@ -15318,7 +15318,7 @@ $$PricetoGrowers = β_1*IsColombianMild + β_2*IsOtherMild + β_3*IsBrazilianNat
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>From the graph comparing actual and predicted prices to growers, it seems that the models tend to underestimate the price to growers at higher prices. This could be due to the fact that there were significantly less data with very high prices to growers. Another strategy we can use to understand the model is to plot the residuals (the difference between actual and predicted values) vs. an independent ratio. As an example, let's plot residuals against the ratio of dometic consumption to total production.</p>
+<p>From the graph comparing actual and predicted prices to growers, it seems that the model tends to underestimate the price to growers at higher prices. This could be due to the fact that there were significantly less data with very high prices to growers. Another strategy we can use to understand the model is to plot the residuals (the difference between actual and predicted values) vs. an independent variable. As an example, let's plot residuals against the ratio of dometic consumption to total production.</p>
 
 </div>
 </div>
@@ -15531,7 +15531,7 @@ $$PricetoGrowers = β_1*IsColombianMild + β_2*IsOtherMild + β_3*IsBrazilianNat
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>From the variable importance plot, we see that the ratio of domestic consumption to total productiona and the interaction terms between market price and producer group are the most important variables in predicting prices to growers.</p>
-<h2 id="Final-Thoughts">Final Thoughts<a class="anchor-link" href="#Final-Thoughts">&#182;</a></h2><p>Clearly, there are many complex factors affecting the farmgate price paid to coffee growers, many of which are likely not contained in the data collected by the ICO. While it's intuitive that the market price of coffee should affect the amount that growers are paid, the importance of the ratio of domestic consumption to production is not as clear. It's possible that countries that consume more of the coffee they produce share commonalities in terms of wage structure and worker compensation. Or, growers may be able to sell directly to in-country coffee roasters rather than working with large, multinational coffee exporters that need to guarantee a profit.</p>
+<h2 id="Final-Thoughts">Final Thoughts<a class="anchor-link" href="#Final-Thoughts">&#182;</a></h2><p>Clearly, there are many complex factors affecting the farmgate price paid to coffee growers, many of which are not contained in the data collected by the ICO. While it's intuitive that the market price of coffee should affect the amount that growers are paid, the importance of the ratio of domestic consumption to production is not as clear. It's possible that countries that consume more of the coffee they produce share commonalities in terms of wage structure and worker compensation. Or, growers may be able to sell directly to in-country coffee roasters rather than working with large, multinational coffee exporters that need to guarantee a profit.</p>
 
 </div>
 </div>
